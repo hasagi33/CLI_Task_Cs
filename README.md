@@ -1,67 +1,138 @@
-# CLI Task Timer Website
+# Setting up the ASP.NET Core (C#) Backend
+This document provides detailed instructions to set up and run the ASP.NET Core backend for the CLI Task Timer project. Follow the steps below to ensure a smooth setup process.
 
-This project is a web application that showcases a CLI-based Task Timer implemented in three different programming languages: Python, C#, and JavaScript. The website allows users to explore and interact with the Task Timer application in their preferred language. It demonstrates the same functionality across each language, highlighting both versatility and ease of use. 
+---
 
-## Table of Contents
+## Prerequisites
+1. **.NET SDK** (Version 6.0 or higher recommended)
+   - Download and install the .NET SDK from dotnet.microsoft.com.
+2. IDE (Integrated Development Environment)
+   - Recommended: Visual Studio or Visual Studio Code.
+4. Git
+   - Ensure Git is installed to clone the repository.
+   - Check by running
+ ```bash
+git --version
+ ```
 
-- [Project Description](#project-description)
-- [Features](#features)
-- [Classes and Methods](#classes-and-methods)
-  - [TaskTimer](#tasktimer)
-  - [AllTimers](#alltimers)
-- [Technology Used](#technology-used)
-- [About Us](#about-us)
+4. Postman or Browser
+   - To test API endpoints
+---
 
-## Project Description
+## File structure overview 
+The backend folder structure is as follows:
 
-The CLI Task Timer allows users to manage multiple timers through a command-line interface, with functionality to start, pause, reset, and retrieve elapsed time for each timer. Users can select Python, C#, or JavaScript to interact with the timer on the website, which provides a consistent experience across all three languages.
+```
+.
+├── Controllers
+│   └── TimerController.cs
+├── Data
+│   └── database.json
+├── Models
+│   ├── AllTimers.cs
+│   ├── TaskTimer.cs
+│   └── functions.cs
+├── Properties
+│   └── launchSettings.json
+├── obj
+├── CLI_Task_Timer_CS.csproj
+├── CLI_Task_Timer_CS.sln
+├── Program.cs
+├── Startup.cs
+├── appsettings.Development.json
+├── appsettings.json
 
-The website is built with a modern tech stack and designed to showcase the power of command-line interfaces while giving users a hands-on experience with task timers across different languages and environments.
+```
+- **`Controllers/TimerController.cs`**: Defines API endpoints for the timer.
+- **`Data/database.json`**: Stores timer data.
+- **`Models/`**: Contains core business logic classes (TaskTimer, AllTimers) and helper functions (functions.cs).
+- **`Startup.cs`**: Configures application services and middleware.
+- **`appsettings.json`**: Contains application settings like database paths or configurations.           
 
-## Features
+---
 
-- **Multilanguage Timer Interface**: Choose between Python, C#, and JavaScript implementations of the Task Timer.
-- **Command-Line Interaction**: Test commands directly in the CLI environment.
-- **Task Management**: Start, pause, reset, and retrieve timer status or elapsed time.
-- **Real-Time Updates**: Displays current status and elapsed time of tasks in real-time.
+## Step-by-Step Guide
 
-## Classes and Methods
+### 1. Clone the Repository
 
-### TaskTimer
+Clone the repository from GitHub:
 
-The `TaskTimer` class provides the core functionality for managing individual timers. Each timer can start, pause, reset, and retrieve details of elapsed time and status.
+```bash
+git clone <repository-url>
+cd <repository-folder>
+```
 
-#### Methods
+Replace `<repository-url>` with the actual URL of the backend repository.
 
-- `start()`: Starts or resumes the timer.
-- `pause()`: Pauses the timer.
-- `reset()`: Resets the timer to zero.
-- `getStatus()`: Returns the current status of the timer (e.g., running, paused).
-- `getElapsedTime()`: Retrieves the total time elapsed since the timer was started.
-- `getUid()`: Generates and returns a unique identifier for each timer instance.
+---
+### 2. Open project in an IDE
+- Open the solution file CLI_Task_Timer_CS.sln in Visual Studio or open the folder in Visual Studio Code.
+- Ensure your IDE is configured to use the .NET Core SDK.
 
-### AllTimers
+### 3. Restore Dependencies
 
-The `AllTimers` class is a manager for multiple `TaskTimer` instances, enabling users to manage multiple timers at once.
+Run the following command in the terminal to restore NuGet packages:
+```bash
+dotnet restore
+```
+This will download and install all the required dependencies listed in the .csproj file
 
-#### Methods
+### 4. Configure Database path
+Check the appsettings.json or appsettings.Development.json file for the database path configuration. By default, it uses Data/database.json. Ensure this file exists and is accessible.
 
-- `createTimer(name)`: Creates a new timer instance with the specified name.
-- `startTimer(name)`: Starts or resumes the timer specified by name.
-- `pauseTimer(name)`: Pauses the timer specified by name.
-- `resetTimer(name)`: Resets the timer specified by name to zero.
-- `getStatusTimer(name)`: Returns the status of the specified timer.
-- `getElapsedTimeTimer(name)`: Retrieves the elapsed time for the specified timer.
-- `getUidTimer(name)`: Returns the unique identifier of the specified timer.
+### 5. Run the Application 
+Start the backend by executing the following command:
+```bash
+dotnet run
+```
+Alternatively, if you're using Visual Studio:
+  1. Select the appropriate startup project (usually the .csproj file).
+  2. Press F5 to run the application in debug mode or Ctrl + F5 to run it without debugging.
+By default, the application will run on http://localhost:5000/.
 
-## Technology Used
+### 6. Test API Endpoints
+1. Open a browser or use Postman to navigate to the base URL:
+```arduino
+http://localhost:5000/
+```
+2. Test specific API routes defined in TimerController.cs.
+   
+---
 
-- **Frontend**: React, for an interactive and dynamic user interface.
-- **Backend**:
-  - **JavaScript**: Node.js for the JavaScript version of the CLI Task Timer.
-  - **C#**: .NET for the C# version, handling CLI commands within the application.
-  - **Python**: Django for the Python version of the CLI, providing a robust framework for backend logic.
-  
-## About Us
+## Common Commands
+## Add new Dependencies
+If you need to add a new NuGet package:
+```bash
+dotnet add package <Package-Name>
+```
 
-Created by a team of 3 students to showcase differences between different programming languages and architectures.
+## Update Dependencies
+Update all NuGet packages to their latest versions:
+```bash
+dotnet restore
+```
+
+## Build the application
+To build the application and check for compile-time errors:
+```bash
+dotnet build
+```
+
+---
+
+## Troubleshooting
+1. Port in Use: If the default port (5000) is occupied, update the launchSettings.json file or add the following in Program.cs:
+```csharp
+    builder.WebHost.UseUrls("http://localhost:5001");
+```
+3. Restore Errors: Ensure that the .NET SDK is installed and the project file (.csproj) is intact.
+4. File Path Issues: Verify the path to database.json in the appsettings.json file.
+5. Dependency Issues: Run dotnet restore again to ensure all dependencies are installed.
+
+---
+Making sure you follow these steps correctly, you should be able to configure and run the ASP.NET Core backend succesfully.
+
+
+
+
+
